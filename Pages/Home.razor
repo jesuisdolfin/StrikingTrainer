@@ -1,0 +1,120 @@
+﻿@page "/"
+@inject IJSRuntime JS
+@using System.Timers
+
+<PageTitle>StrikeFlow - Heavy Bag Coach</PageTitle>
+
+<div style="text-align:center; font-family: sans-serif; padding: 20px;">
+    <h1>StrikeFlow</h1>
+    
+    <div style="font-size: 3rem; margin: 20px 0;">
+        @TimeDisplay
+    </div>
+
+    <div style="background: #333; color: #fff; padding: 20px; border-radius: 10px; min-height: 80px;">
+        <h2>@CurrentCombo</h2>
+    </div>
+
+    <div style="margin-top: 20px;">
+        @if (!isRunning)
+        {
+            <button @onclick="StartWorkout" style="padding: 15px 30px; font-size: 1.2rem; background: green; color: white; border: none; border-radius: 5px;">
+                START ROUND
+            </button>
+        }
+        else
+        {
+            <button @onclick="StopWorkout" style="padding: 15px 30px; font-size: 1.2rem; background: red; color: white; border: none; border-radius: 5px;">
+                STOP
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    private string TimeDisplay = "03:00";
+    private string CurrentCombo = "Ready?";
+    private bool isRunning = false;
+    private System.Timers.Timer roundTimer = default!;
+    private int secondsLeft = 180;
+
+    private string[] leadMoves = { "1", "3", "5", "Lead Teep", "Lead Kick", "Lead Check", "Lead Knee", "Slip Left", "Roll Left", "Cover Left" };
+    private string[] rearMoves = { "2", "4", "6", "Rear Teep", "Rear Kick", "Rear Check", "Rear Knee", "Slip Right", "Roll Right", "Cover Right" };
+    private Random rng = new Random();
+
+    protected override void OnInitialized()
+    {
+        roundTimer = new System.Timers.Timer(1000);
+        roundTimer.Elapsed += OnTimerTick;
+    }
+
+    private async Task StartWorkout()
+    {
+        isRunning = true;
+        secondsLeft = 180;
+        roundTimer.Start();
+        
+        // Eagerly initialize speech synthesis within the user interaction context (button click).
+        // This is often required by browsers (especially Safari/mobile) to allow subsequent async speech.
+        await JS.InvokeVoidAsync("speak", "Round started");
+
+        _ = ComboLoop(); // Run on the main UI thread via yielding, instead of Task.Run (background thread)
+    }
+
+    private void StopWorkout()
+    {
+        isRunning = false;
+        roundTimer.Stop();
+        
+        // Cancel any ongoing speech
+        JS.InvokeVoidAsync("eval", "window.speechSynthesis.cancel()").AsTask();
+    }
+
+    private void OnTimerTick(object? sender, ElapsedEventArgs e)
+    {
+        secondsLeft--;
+        int mins = secondsLeft / 60;
+        int secs = secondsLeft % 60;
+        TimeDisplay = $"{mins:D2}:{secs:D2}";
+        
+        if (secondsLeft <= 0) StopWorkout();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ComboLoop()
+    {
+        while (isRunning)
+        {
+            // Generate a 2-4 hit combo
+            List<string> comboList = new List<string>();
+            bool nextIsLead = rng.Next(0, 2) == 0;
+
+            for (int i = 0; i < rng.Next(2, 5); i++)
+            {
+                var pool = nextIsLead ? leadMoves : rearMoves;
+                comboList.Add(pool[rng.Next(pool.Length)]);
+                nextIsLead = !nextIsLead;
+            }
+
+            CurrentCombo = "";
+            foreach (var strike in comboList)
+            {
+                if (!isRunning) break;
+
+                CurrentCombo += (CurrentCombo.Length == 0 ? "" : " - ") + strike;
+                StateHasChanged();
+                
+                // Speak each individual strike
+                await JS.InvokeVoidAsync("speak", strike);
+                
+                // Rhythmic pause matching pad-work between strikes
+                await Task.Delay(1200);
+            }
+
+            if (!isRunning) break;
+
+            // Wait 2-4 seconds before the next entire combination
+            await Task.Delay(rng.Next(2000, 4000));
+        }
+    }
+}
