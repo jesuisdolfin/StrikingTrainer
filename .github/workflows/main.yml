@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '10.0.x' 
+
+    - name: Publish the Blazor WebAssembly app
+      run: dotnet publish -c Release -o release --nologo
+
+    # Blazor files start with an underscore. GitHub Pages ignores them using Jekyll by default.
+    # This step adds a .nojekyll file to tell GitHub Pages NOT to ignore those files.
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+
+    # Copies index.html to 404.html to fix 404 routing errors in SPAs
+    - name: copy index.html to 404.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: release/wwwroot
