@@ -207,9 +207,6 @@
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_CJK.tjcz0u77k5.dat
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_EFIGS.tptq2av103.dat
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_no_CJK.lfu7j35m59.dat
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.g3fohyvg98.wasm
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.i4izcaehbm.pdb
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/dotnet.ictpdaiyip.js
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/blazor.webassembly.66stpp682q.js.gz
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/Microsoft.AspNetCore.Authorization.3ur142rhlk.wasm.gz
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/Microsoft.AspNetCore.Components.ld1j2d23tn.wasm.gz
@@ -418,9 +415,6 @@
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_CJK.tjcz0u77k5.dat.gz
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_EFIGS.tptq2av103.dat.gz
 /home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/icudt_no_CJK.lfu7j35m59.dat.gz
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.g3fohyvg98.wasm.gz
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.i4izcaehbm.pdb.gz
-/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/dotnet.ictpdaiyip.js.gz
 /home/charlie/StrikeFlow/bin/Debug/net10.0/StrikeFlow.staticwebassets.runtime.json
 /home/charlie/StrikeFlow/bin/Debug/net10.0/StrikeFlow.staticwebassets.endpoints.json
 /home/charlie/StrikeFlow/bin/Debug/net10.0/StrikeFlow.dll
@@ -846,7 +840,6 @@
 /home/charlie/StrikeFlow/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /home/charlie/StrikeFlow/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
 /home/charlie/StrikeFlow/obj/Debug/net10.0/scopedcss/Layout/MainLayout.razor.rz.scp.css
-/home/charlie/StrikeFlow/obj/Debug/net10.0/scopedcss/Layout/NavMenu.razor.rz.scp.css
 /home/charlie/StrikeFlow/obj/Debug/net10.0/scopedcss/bundle/StrikeFlow.styles.css
 /home/charlie/StrikeFlow/obj/Debug/net10.0/scopedcss/projectbundle/StrikeFlow.bundle.scp.css
 /home/charlie/StrikeFlow/obj/Debug/net10.0/StrikeFlow.genruntimeconfig.cache
@@ -901,8 +894,6 @@
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/o5ilbi7cv4-{0}-mb88gjfpma-mb88gjfpma.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/59387owrq5-{0}-vnc9dmv67p-vnc9dmv67p.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/wbupubjrvx-{0}-66stpp682q-66stpp682q.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/bout8736gl-{0}-y8ahps3d8i-y8ahps3d8i.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/or0bsh3kbo-{0}-y8ahps3d8i-y8ahps3d8i.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/yx3znfcir6-{0}-3ur142rhlk-3ur142rhlk.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/emaahmpbce-{0}-ld1j2d23tn-ld1j2d23tn.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/s1mbdnqq3f-{0}-jnskqyrki7-jnskqyrki7.gz
@@ -1110,10 +1101,6 @@
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/vvjbaag5dk-{0}-tjcz0u77k5-tjcz0u77k5.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/ezx40rjbcp-{0}-tptq2av103-tptq2av103.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/esw0yxxqwr-{0}-lfu7j35m59-lfu7j35m59.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/hquwrs7vct-{0}-g3fohyvg98-g3fohyvg98.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/aqits7dhp1-{0}-i4izcaehbm-i4izcaehbm.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/zb2e1z4tle-{0}-ictpdaiyip-ictpdaiyip.gz
-/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/d44xz2nmqw-{0}-gsltcry2zh-gsltcry2zh.gz
 /home/charlie/StrikeFlow/obj/Debug/net10.0/staticwebassets.build.json
 /home/charlie/StrikeFlow/obj/Debug/net10.0/staticwebassets.build.json.cache
 /home/charlie/StrikeFlow/obj/Debug/net10.0/staticwebassets.development.json
@@ -1124,3 +1111,16 @@
 /home/charlie/StrikeFlow/obj/Debug/net10.0/refint/StrikeFlow.dll
 /home/charlie/StrikeFlow/obj/Debug/net10.0/StrikeFlow.pdb
 /home/charlie/StrikeFlow/obj/Debug/net10.0/ref/StrikeFlow.dll
+/home/charlie/StrikeFlow/obj/Debug/net10.0/StrikeFlow.sourcelink.json
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.5oldxuxd7g.wasm
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.gww4j24thx.pdb
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/dotnet.nfft9jgnri.js
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.5oldxuxd7g.wasm.gz
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/StrikeFlow.gww4j24thx.pdb.gz
+/home/charlie/StrikeFlow/bin/Debug/net10.0/wwwroot/_framework/dotnet.nfft9jgnri.js.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/bout8736gl-{0}-046wyvlk26-046wyvlk26.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/or0bsh3kbo-{0}-046wyvlk26-046wyvlk26.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/hquwrs7vct-{0}-5oldxuxd7g-5oldxuxd7g.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/aqits7dhp1-{0}-gww4j24thx-gww4j24thx.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/zb2e1z4tle-{0}-nfft9jgnri-nfft9jgnri.gz
+/home/charlie/StrikeFlow/obj/Debug/net10.0/compressed/d44xz2nmqw-{0}-pq8rvvvp1n-pq8rvvvp1n.gz

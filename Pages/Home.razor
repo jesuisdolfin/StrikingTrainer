@@ -4,27 +4,35 @@
 
 <PageTitle>StrikeFlow - Heavy Bag Coach</PageTitle>
 
-<div style="text-align:center; font-family: sans-serif; padding: 20px;">
-    <h1>StrikeFlow</h1>
+<div style="text-align:center; font-family: sans-serif; padding: 10px; max-width: 500px; margin: 0 auto;">
+    <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 10px;">StrikeFlow</h1>
     
-    <div style="font-size: 3rem; margin: 20px 0;">
+    <div style="font-size: 5rem; font-weight: bold; margin: 20px 0; color: #222;">
         @TimeDisplay
     </div>
 
-    <div style="background: #333; color: #fff; padding: 20px; border-radius: 10px; min-height: 80px;">
-        <h2>@CurrentCombo</h2>
+    <div style="background: #333; color: #fff; padding: 30px 20px; border-radius: 12px; min-height: 120px; display: flex; align-items: center; justify-content: center;">
+        <h2 style="margin: 0; font-size: 2rem;">@CurrentCombo</h2>
     </div>
 
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 30px;">
         @if (!isRunning)
         {
-            <button @onclick="StartWorkout" style="padding: 15px 30px; font-size: 1.2rem; background: green; color: white; border: none; border-radius: 5px;">
+            <div style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
+                <label style="font-size: 1.2rem; font-weight: bold; color: #555; text-align: left;">Round Type</label>
+                <select @bind="roundType" style="font-size: 1.2rem; padding: 15px; border-radius: 8px; border: 2px solid #ccc; background: #fff;">
+                    <option value="All">All Strikes</option>
+                    <option value="PunchesOnly">Punches Only (1-6)</option>
+                </select>
+            </div>
+            
+            <button @onclick="StartWorkout" style="width: 100%; padding: 20px; font-size: 1.5rem; font-weight: bold; background: #28a745; color: white; border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 START ROUND
             </button>
         }
         else
         {
-            <button @onclick="StopWorkout" style="padding: 15px 30px; font-size: 1.2rem; background: red; color: white; border: none; border-radius: 5px;">
+            <button @onclick="StopWorkout" style="width: 100%; padding: 20px; font-size: 1.5rem; font-weight: bold; background: #dc3545; color: white; border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 STOP
             </button>
         }
@@ -37,9 +45,14 @@
     private bool isRunning = false;
     private System.Timers.Timer roundTimer = default!;
     private int secondsLeft = 180;
+    private string roundType = "All";
 
-    private string[] leadMoves = { "1", "3", "5", "Lead Teep", "Lead Kick", "Lead Check", "Lead Knee", "Slip Left", "Roll Left", "Cover Left" };
-    private string[] rearMoves = { "2", "4", "6", "Rear Teep", "Rear Kick", "Rear Check", "Rear Knee", "Slip Right", "Roll Right", "Cover Right" };
+    private string[] leadMovesAll = { "1", "3", "5", "Lead Teep", "Lead Kick", "Lead Check", "Lead Knee", "Slip Left", "Roll Left", "Cover Left" };
+    private string[] rearMovesAll = { "2", "4", "6", "Rear Teep", "Rear Kick", "Rear Check", "Rear Knee", "Slip Right", "Roll Right", "Cover Right" };
+    
+    private string[] leadMovesPunches = { "1", "3", "5" };
+    private string[] rearMovesPunches = { "2", "4", "6" };
+
     private Random rng = new Random();
 
     protected override void OnInitialized()
@@ -51,13 +64,28 @@
     private async Task StartWorkout()
     {
         isRunning = true;
-        secondsLeft = 180;
-        roundTimer.Start();
         
         // Eagerly initialize speech synthesis within the user interaction context (button click).
-        // This is often required by browsers (especially Safari/mobile) to allow subsequent async speech.
-        await JS.InvokeVoidAsync("speak", "Round started");
+        // Say "Round Starting"
+        await JS.InvokeVoidAsync("speak", "Round Starting");
 
+        for (int i = 5; i > 0; i--)
+        {
+            if (!isRunning) return; // Cancelled
+            CurrentCombo = $"Starting in {i}...";
+            StateHasChanged();
+            await JS.InvokeVoidAsync("speak", i.ToString());
+            await Task.Delay(1000);
+        }
+
+        if (!isRunning) return; // Final check
+
+        CurrentCombo = "Ready?";
+        secondsLeft = 180;
+        TimeDisplay = "03:00";
+        StateHasChanged();
+
+        roundTimer.Start();
         _ = ComboLoop(); // Run on the main UI thread via yielding, instead of Task.Run (background thread)
     }
 
@@ -77,7 +105,14 @@
         int secs = secondsLeft % 60;
         TimeDisplay = $"{mins:D2}:{secs:D2}";
         
-        if (secondsLeft <= 0) StopWorkout();
+        if (secondsLeft <= 0)
+        {
+            isRunning = false;
+            roundTimer.Stop();
+            InvokeAsync(async () => {
+                await JS.InvokeVoidAsync("eval", "window.speechSynthesis.cancel(); window.speak('Round Ending');");
+            });
+        }
         InvokeAsync(StateHasChanged);
     }
 
@@ -89,9 +124,14 @@
             List<string> comboList = new List<string>();
             bool nextIsLead = rng.Next(0, 2) == 0;
 
+            bool punchesOnly = roundType == "PunchesOnly";
+
             for (int i = 0; i < rng.Next(2, 5); i++)
             {
-                var pool = nextIsLead ? leadMoves : rearMoves;
+                var poolLead = punchesOnly ? leadMovesPunches : leadMovesAll;
+                var poolRear = punchesOnly ? rearMovesPunches : rearMovesAll;
+                var pool = nextIsLead ? poolLead : poolRear;
+                
                 comboList.Add(pool[rng.Next(pool.Length)]);
                 nextIsLead = !nextIsLead;
             }

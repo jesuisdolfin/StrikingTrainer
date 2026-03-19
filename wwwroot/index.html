@@ -5,7 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StrikeFlow</title>
-    <base href="/StrikeFlow/" />
+    <script>
+        var path = window.location.pathname.includes('/StrikeFlow/') ? '/StrikeFlow/' : '/';
+        document.write('<base href="' + path + '" />');
+    </script>
     <link rel="preload" id="webassembly" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
