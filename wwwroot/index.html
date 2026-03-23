@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StrikeFlow</title>
+    <title>Striking Trainer</title>
     <script>
         var path = window.location.pathname.includes('/StrikeFlow/') ? '/StrikeFlow/' : '/';
         document.write('<base href="' + path + '" />');
@@ -35,14 +35,14 @@
     <script>
         window.speak = (text) => {
             const voices = window.speechSynthesis.getVoices();
-            if (voices.length === 0) {
-                console.warn("Speech Synthesis failed: No voices detected.");
-                // If we haven't alerted yet in this session to avoid spamming
-                if (!window.speechWarned) {
-                    alert("No text-to-speech voices found! If you are using Brave, try turning off 'Strict Fingerprinting Protection' in Shields. On Manjaro/Linux, you may need to install 'speech-dispatcher' and a voice engine like 'espeak' or 'festival'.");
-                    window.speechWarned = true;
-                }
-            }
+            // if (voices.length === 0) {
+            //     console.warn("Speech Synthesis failed: No voices detected.");
+            //     // If we haven't alerted yet in this session to avoid spamming
+            //     if (!window.speechWarned) {
+            //         alert("No text-to-speech voices found! If you are using Brave, try turning off 'Strict Fingerprinting Protection' in Shields. On Manjaro/Linux, you may need to install 'speech-dispatcher' and a voice engine like 'espeak' or 'festival'.");
+            //         window.speechWarned = true;
+            //     }
+            // }
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 1.0; // Normal rate instead of fast

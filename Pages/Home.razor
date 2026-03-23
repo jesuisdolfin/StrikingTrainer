@@ -2,10 +2,10 @@
 @inject IJSRuntime JS
 @using System.Timers
 
-<PageTitle>StrikeFlow - Heavy Bag Coach</PageTitle>
+<PageTitle>Striking Trainer</PageTitle>
 
 <div style="text-align:center; font-family: sans-serif; padding: 10px; max-width: 500px; margin: 0 auto;">
-    <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 10px;">StrikeFlow</h1>
+    <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 10px;">Striking Trainer</h1>
     
     <div style="font-size: 5rem; font-weight: bold; margin: 20px 0; color: #222;">
         @TimeDisplay
@@ -19,11 +19,12 @@
         @if (!isRunning)
         {
             <div style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
-                <label style="font-size: 1.2rem; font-weight: bold; color: #555; text-align: left;">Round Type</label>
-                <select @bind="roundType" style="font-size: 1.2rem; padding: 15px; border-radius: 8px; border: 2px solid #ccc; background: #fff;">
-                    <option value="All">All Strikes</option>
-                    <option value="PunchesOnly">Punches Only (1-6)</option>
-                </select>
+                <label style="font-size: 1.2rem; font-weight: bold; color: #555; text-align: left;">Strike Types</label>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button @onclick="() => includePunches = !includePunches" style="@GetButtonStyle(includePunches)">Punches</button>
+                    <button @onclick="() => includeKicks = !includeKicks" style="@GetButtonStyle(includeKicks)">Kicks</button>
+                    <button @onclick="() => includeDefenses = !includeDefenses" style="@GetButtonStyle(includeDefenses)">Defenses</button>
+                </div>
             </div>
             
             <button @onclick="StartWorkout" style="width: 100%; padding: 20px; font-size: 1.5rem; font-weight: bold; background: #28a745; color: white; border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -45,13 +46,51 @@
     private bool isRunning = false;
     private System.Timers.Timer roundTimer = default!;
     private int secondsLeft = 180;
-    private string roundType = "All";
 
-    private string[] leadMovesAll = { "1", "3", "5", "Lead Teep", "Lead Kick", "Lead Check", "Lead Knee", "Slip Left", "Roll Left", "Cover Left" };
-    private string[] rearMovesAll = { "2", "4", "6", "Rear Teep", "Rear Kick", "Rear Check", "Rear Knee", "Slip Right", "Roll Right", "Cover Right" };
-    
-    private string[] leadMovesPunches = { "1", "3", "5" };
-    private string[] rearMovesPunches = { "2", "4", "6" };
+    // Arsenal Toggles
+    private bool includePunches = true;
+    private bool includeKicks = true;
+    private bool includeDefenses = true;
+
+    private string GetButtonStyle(bool isActive)
+    {
+        return isActive 
+            ? "flex: 1 1 calc(50% - 5px); padding: 15px 10px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; border: 2px solid #0a58ca; background: #0d6efd; color: #fff; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.2);"
+            : "flex: 1 1 calc(50% - 5px); padding: 15px 10px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; border: 2px solid #ccc; background: #fff; color: #555; transition: all 0.2s ease-in-out;";
+    }
+
+    private List<string> activeLeadMoves = new();
+    private List<string> activeRearMoves = new();
+
+    private void UpdateActivePools()
+    {
+        activeLeadMoves.Clear();
+        activeRearMoves.Clear();
+
+        if (includePunches) 
+        {
+            activeLeadMoves.AddRange(new[] { "1", "3", "5" });
+            activeRearMoves.AddRange(new[] { "2", "4", "6" });
+        }
+        if (includeKicks) 
+        {
+            activeLeadMoves.AddRange(new[] { "Lead Kick", "Lead Knee", "Lead Teep" });
+            activeRearMoves.AddRange(new[] { "Rear Kick", "Rear Knee", "Rear Teep" });
+        }
+        if (includeDefenses) 
+        {
+            activeLeadMoves.AddRange(new[] { "Slip Left", "Roll Left", "Cover Left", "Lead Check", "Lead Teep" });
+            activeRearMoves.AddRange(new[] { "Slip Right", "Roll Right", "Cover Right", "Rear Check", "Rear Teep" });
+        }
+        
+        // Remove duplicates if both Kicks and Defenses include Teeps
+        activeLeadMoves = activeLeadMoves.Distinct().ToList();
+        activeRearMoves = activeRearMoves.Distinct().ToList();
+
+        // Fallback if none selected
+        if (activeLeadMoves.Count == 0) activeLeadMoves.Add("1");
+        if (activeRearMoves.Count == 0) activeRearMoves.Add("2");
+    }
 
     private Random rng = new Random();
 
@@ -65,9 +104,16 @@
     {
         isRunning = true;
         
+        CurrentCombo = "Get Ready...";
+        StateHasChanged();
+        
         // Eagerly initialize speech synthesis within the user interaction context (button click).
         // Say "Round Starting"
         await JS.InvokeVoidAsync("speak", "Round Starting");
+        
+        await Task.Delay(2000);
+        
+        if (!isRunning) return;
 
         for (int i = 5; i > 0; i--)
         {
@@ -83,6 +129,9 @@
         CurrentCombo = "Ready?";
         secondsLeft = 180;
         TimeDisplay = "03:00";
+        
+        UpdateActivePools();
+        
         StateHasChanged();
 
         roundTimer.Start();
@@ -124,15 +173,10 @@
             List<string> comboList = new List<string>();
             bool nextIsLead = rng.Next(0, 2) == 0;
 
-            bool punchesOnly = roundType == "PunchesOnly";
-
             for (int i = 0; i < rng.Next(2, 5); i++)
             {
-                var poolLead = punchesOnly ? leadMovesPunches : leadMovesAll;
-                var poolRear = punchesOnly ? rearMovesPunches : rearMovesAll;
-                var pool = nextIsLead ? poolLead : poolRear;
-                
-                comboList.Add(pool[rng.Next(pool.Length)]);
+                var pool = nextIsLead ? activeLeadMoves : activeRearMoves;
+                comboList.Add(pool[rng.Next(pool.Count)]);
                 nextIsLead = !nextIsLead;
             }
 
