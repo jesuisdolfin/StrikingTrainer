@@ -1,4 +1,0 @@
-/home/charlie/StrikeFlow/bin/Release/net10.0/publish/wwwroot/index.html
-/home/charlie/StrikeFlow/bin/Release/net10.0/publish/StrikeFlow.runtimeconfig.json
-/home/charlie/StrikeFlow/bin/Release/net10.0/publish/dotnet.js
-/home/charlie/StrikeFlow/bin/Release/net10.0/publish/web.config

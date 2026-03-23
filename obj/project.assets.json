@@ -2141,9 +2141,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/charlie/StrikeFlow/StrikeFlow.csproj",
-      "projectName": "StrikeFlow",
-      "projectPath": "/home/charlie/StrikeFlow/StrikeFlow.csproj",
+      "projectUniqueName": "/home/charlie/StrikeFlow/StrikingTrainer.csproj",
+      "projectName": "StrikingTrainer",
+      "projectPath": "/home/charlie/StrikeFlow/StrikingTrainer.csproj",
       "packagesPath": "/home/charlie/.nuget/packages/",
       "outputPath": "/home/charlie/StrikeFlow/obj/",
       "projectStyle": "PackageReference",
