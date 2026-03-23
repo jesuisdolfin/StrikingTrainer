@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StrikeFlow</title>
+    <title>Striking Trainer</title>
     <script>
         var path = window.location.pathname.includes('/StrikeFlow/') ? '/StrikeFlow/' : '/';
         document.write('<base href="' + path + '" />');
     </script>
-    <link href="_framework/dotnet.3k785tbi4d.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-Q8EYnGT1/VcD9UutP9LtSJfAGKNC/91jCkkdIOV9FlM=" />
+    <link href="_framework/dotnet.npatjdm2pw.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-hf2IqpadBD+pjLcS5Hq9M9GoOwIJ8wLgzzl7EQAfMes=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -17,18 +17,18 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.3k785tbi4d.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.ykrnppwhq2.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.npatjdm2pw.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.peu2mfb29t.js"
   },
   "scopes": {},
   "integrity": {
     "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
     "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.3k785tbi4d.js": "sha256-Q8EYnGT1/VcD9UutP9LtSJfAGKNC/91jCkkdIOV9FlM=",
-    "./_framework/dotnet.js": "sha256-Q8EYnGT1/VcD9UutP9LtSJfAGKNC/91jCkkdIOV9FlM=",
+    "./_framework/dotnet.js": "sha256-hf2IqpadBD+pjLcS5Hq9M9GoOwIJ8wLgzzl7EQAfMes=",
     "./_framework/dotnet.native.js": "sha256-nheeN4H7Js+avp9nd/sQxdaehbeEx3qriXjiZ3pSw6U=",
     "./_framework/dotnet.native.ykrnppwhq2.js": "sha256-nheeN4H7Js+avp9nd/sQxdaehbeEx3qriXjiZ3pSw6U=",
+    "./_framework/dotnet.npatjdm2pw.js": "sha256-hf2IqpadBD+pjLcS5Hq9M9GoOwIJ8wLgzzl7EQAfMes=",
     "./_framework/dotnet.runtime.js": "sha256-cajUr4vA/MpLPWj3omULUOwEQw3i8CE2n8AmDheqWBM=",
     "./_framework/dotnet.runtime.peu2mfb29t.js": "sha256-cajUr4vA/MpLPWj3omULUOwEQw3i8CE2n8AmDheqWBM="
   }
@@ -53,14 +53,14 @@
     <script>
         window.speak = (text) => {
             const voices = window.speechSynthesis.getVoices();
-            if (voices.length === 0) {
-                console.warn("Speech Synthesis failed: No voices detected.");
-                // If we haven't alerted yet in this session to avoid spamming
-                if (!window.speechWarned) {
-                    alert("No text-to-speech voices found! If you are using Brave, try turning off 'Strict Fingerprinting Protection' in Shields. On Manjaro/Linux, you may need to install 'speech-dispatcher' and a voice engine like 'espeak' or 'festival'.");
-                    window.speechWarned = true;
-                }
-            }
+            // if (voices.length === 0) {
+            //     console.warn("Speech Synthesis failed: No voices detected.");
+            //     // If we haven't alerted yet in this session to avoid spamming
+            //     if (!window.speechWarned) {
+            //         alert("No text-to-speech voices found! If you are using Brave, try turning off 'Strict Fingerprinting Protection' in Shields. On Manjaro/Linux, you may need to install 'speech-dispatcher' and a voice engine like 'espeak' or 'festival'.");
+            //         window.speechWarned = true;
+            //     }
+            // }
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 1.0; // Normal rate instead of fast
